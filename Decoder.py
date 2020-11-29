@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+
 """
     This is the module for converting files to the correct json format
     the functions here must take two path, input file and output file
@@ -11,6 +12,7 @@ import os
     Points: Float rank of film normalized between 1 and 0 (1 if in first position 0 if last
 """
 
+
 def analyze_jot(input_path, output_path=None, preference=None):
     """
     decodes csv from the horrible jotform format
@@ -21,7 +23,7 @@ def analyze_jot(input_path, output_path=None, preference=None):
     :return: graph object
     """
     if output_path is None:
-        output_path = os.path.splitext(input_path)[0]+'.json'
+        output_path = os.path.splitext(input_path)[0] + '.json'
     if preference is None:
         preference = 'Ordina i film in base alle tue preferenze'
 
@@ -32,7 +34,7 @@ def analyze_jot(input_path, output_path=None, preference=None):
     data['Position'] = data['Preference'].map(lambda s: s.split(':')[0]).astype('int64')
     data['Preference'] = data['Preference'].map(lambda s: s.split(': ')[1])
     m = data['Position'].max()
-    data['Points'] = data['Position'].map(lambda n: (m-n)/(m-1))
+    data['Points'] = data['Position'].map(lambda n: (m - n) / (m - 1))
     data = data.reset_index().drop(columns='index')
     data.to_json(output_path)
     return

@@ -2,6 +2,21 @@ import numpy as np
 import pandas as pd
 
 
+def __present(win_list):
+    """
+    return nicely formatted string to illustrate results
+    :param win_list: object graph from find_best
+    :return:
+    """
+    out = ""
+    cont = 1
+    for place in reversed(win_list):
+        if place:
+            out += str(cont) + ": " + str(place) + "\n"
+            cont += 1
+    return out
+
+
 class Graph:
     """
     Graph class for the implementation of the shultze voting method
@@ -52,7 +67,7 @@ class Graph:
         """
         Computes the widest path for each combination
         matrix[i, j] = width of the widest path
-        :return: self
+        :return: matrix[i, j]
         """
         if self.strong is not None:
             return self.strong
@@ -96,14 +111,15 @@ class Graph:
                 fin.append(i)
         self.best_found = fin
         if string_format:
-            return self.__present(fin)
+            return Graph.__present(fin)
         return fin
 
-    def __present(self, win_list):
+    @staticmethod
+    def __present(win_list):
         """
         return nicely formatted string to illustrate results
         :param win_list: object graph from find_best
-        :return:
+        :return: String
         """
         out = ""
         cont = 1
