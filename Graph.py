@@ -1,6 +1,6 @@
 import numpy as np
-
 import pandas as pd
+
 
 class Graph:
     """
@@ -114,17 +114,24 @@ class Graph:
         return out
 
     @staticmethod
-    def read_json(file, vote='Preference', identifier='Email', rank='Position'):
+    def read_json_file(file, vote='Preference', identifier='Email', rank='Position'):
         """
-        Static method for decoding json file and returning an instance of the
-        Graph class
-        :param file: str path to json file
-        :param vote: str name of the vote preference column
-        :param identifier: str name of the identifier column
-        :param rank: str name of the rank column
-        :return: Graph object
+        :param file: Str path to json to convert
+        For other parameters see Graph.read_df
         """
-        data = pd.read_json(file)
+        return Graph.read_df(pd.read_json(file), vote, identifier, rank)
+
+    @staticmethod
+    def read_df(data, vote='Preference', identifier='Email', rank='Position'):
+        """
+                Static method for decoding json file and returning an instance of the
+                Graph class
+                :param data: pandas.DataFrame
+                :param vote: str name of the vote preference column
+                :param identifier: str name of the identifier column
+                :param rank: str name of the rank column
+                :return: Graph object
+                """
         films = data[vote].unique()
         graph = Graph(list(films))
         mat = list(data.sort_values(by=rank).
